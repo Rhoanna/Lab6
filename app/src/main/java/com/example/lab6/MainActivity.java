@@ -16,8 +16,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-//import com.example.megido.myapplication.HttpRequest;
-// import java.net.http.HttpClient;
+import com.example.megido.myapplication.HttpRequest;
+import java.net.http.HttpClient;
 
 public class MainActivity extends AppCompatActivity {
 
