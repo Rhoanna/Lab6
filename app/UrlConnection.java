@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -11,6 +12,6 @@ public class UrlConnection {
         urlConnection = (HttpURLConnection) new URL(url).openConnection();
         urlConnection.setDoInput(true);
         urlConnection.connect();
-        inputS = urlConnection.getInputStream();
+        InputStream inputS = urlConnection.getInputStream();
     }
 }
