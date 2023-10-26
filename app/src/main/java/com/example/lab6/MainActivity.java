@@ -82,7 +82,6 @@ public class MainActivity extends AppCompatActivity {
 //     original   public final static String JSON_STRING="{"tags":["cat"],"createdAt":"2022-04-17T19:17:05.564Z","updatedAt":"2022-10-11T07:52:32.651Z","mimetype":"image/jpeg","size":280545,"_id":"KyCpC9ckObUSgQ54"}";
 
                //     JSONObject jsonObject = new JSONObject(JSON_STRING);
-
                     Log.i("HTTP", "222222222");
                      JSONObject jsonObject = new JSONObject(strUrlJSON);
                      // never makes it here *************************** resource failed to call close
