@@ -26,10 +26,12 @@ import java.nio.Buffer;
 
 public class MainActivity extends AppCompatActivity {
 
+
     // tired this version but i dont need the metadata, i need the image file
     String strUrlJSON = "https://cataas.com/cat?json=true";
     // actual cat url
     String strUrl = "https://cataas.com/cat";
+
 
       // this is what is at that web site:
     //  {"tags":["cat"],"createdAt":"2022-04-17T19:17:05.564Z","updatedAt":"2022-10-11T07:52:32.651Z","mimetype":"image/jpeg","size":280545,"_id":"KyCpC9ckObUSgQ54"}
@@ -42,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
 
         CI.onProgressUpdate(25);
     }
+
+
     private class CatImages extends AsyncTask< String, Integer, String> {
         Bitmap currentBitmap;
 
@@ -81,11 +85,13 @@ public class MainActivity extends AppCompatActivity {
               //      final String JSON_STRING="{\"tags\":{\"createdAt\":\"2022-04-17T19:17:05.564Z\",\"updatedAt\":\"2022-10-11T07:52:32.651Z\",\"mimetype\":\"image/jpeg\",\"size\":280545,\"_id\":\"KyCpC9ckObUSgQ54\"}";
 //     original   public final static String JSON_STRING="{"tags":["cat"],"createdAt":"2022-04-17T19:17:05.564Z","updatedAt":"2022-10-11T07:52:32.651Z","mimetype":"image/jpeg","size":280545,"_id":"KyCpC9ckObUSgQ54"}";
 
+
                //     JSONObject jsonObject = new JSONObject(JSON_STRING);
                     Log.i("HTTP", "222222222");
                      JSONObject jsonObject = new JSONObject(strUrlJSON);
                      // never makes it here *************************** resource failed to call close
                     Log.i("HTTP", "555555555");
+
 
                     // json method B
                 //    JSONObject webImages = jsonObject.getJSONObject("WebImages");
