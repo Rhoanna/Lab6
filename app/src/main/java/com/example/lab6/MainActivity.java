@@ -8,6 +8,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.Toast;
+
 import java.io.BufferedReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -23,7 +25,11 @@ import java.net.URLConnection;
 import java.nio.Buffer;
 
 public class MainActivity extends AppCompatActivity {
-     String strUrl = "https://cataas.com/cat?json=true";
+
+    // tired this version but i dont need the metadata, i need the image file
+    String strUrlJSON = "https://cataas.com/cat?json=true";
+    // actual cat url
+    String strUrl = "https://cataas.com/cat";
 
       // this is what is at that web site:
     //  {"tags":["cat"],"createdAt":"2022-04-17T19:17:05.564Z","updatedAt":"2022-10-11T07:52:32.651Z","mimetype":"image/jpeg","size":280545,"_id":"KyCpC9ckObUSgQ54"}
@@ -31,19 +37,28 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        new CatImages().execute();
-        new CatImages().onProgressUpdate(25);
+        CatImages CI = new CatImages();
+        CI.execute();
+
+        CI.onProgressUpdate(25);
     }
     private class CatImages extends AsyncTask< String, Integer, String> {
         Bitmap currentBitmap;
+
         public String doInBackground(String... args) {
             String jsonResponse = "";
             InputStream inputStream = null;
+
             try {
                 URL url = new URL(strUrl);
+
                 HttpURLConnection con = (HttpURLConnection) url.openConnection();
+
                 con.setRequestMethod("GET");
+                Log.i("HTTP", "hhhhhhhhhhhhhh");
                 con.connect();
+                Log.i("HTTP", "iiiiiiiiii");
+
                 while (true) {
                     // pickup the next cat picture
                     // query with  json
@@ -54,28 +69,31 @@ public class MainActivity extends AppCompatActivity {
                    // there seems to be two methods to parse out JSON but its not clear which one is the best
                    // these static variables are for the json string method, but its unclear where the bitmap is
 
-                    // json method A
+                    // json method A if you want all of the meta data, which i do not
 
-                    String tags;
-                    String createdAt;
-                    String updatedAt;
-                    String mimetype;
-                    Integer size;
-                    String _id;
+                //    String tags;
+                //    String createdAt;
+                //    String updatedAt;
+                //    String mimetype;
+                //    Integer size;
+                 //   String _id;
 
-                    final String JSON_STRING="{\"tags\":{\"createdAt\":\"2022-04-17T19:17:05.564Z\",\"updatedAt\":\"2022-10-11T07:52:32.651Z\",\"mimetype\":\"image/jpeg\",\"size\":280545,\"_id\":\"KyCpC9ckObUSgQ54\"}";
+              //      final String JSON_STRING="{\"tags\":{\"createdAt\":\"2022-04-17T19:17:05.564Z\",\"updatedAt\":\"2022-10-11T07:52:32.651Z\",\"mimetype\":\"image/jpeg\",\"size\":280545,\"_id\":\"KyCpC9ckObUSgQ54\"}";
 //     original   public final static String JSON_STRING="{"tags":["cat"],"createdAt":"2022-04-17T19:17:05.564Z","updatedAt":"2022-10-11T07:52:32.651Z","mimetype":"image/jpeg","size":280545,"_id":"KyCpC9ckObUSgQ54"}";
 
-                    JSONObject jsonObject = new JSONObject(JSON_STRING);
-                   // JSONObject jsonObject = new JSONObject(strUrl);
+               //     JSONObject jsonObject = new JSONObject(JSON_STRING);
 
+                    Log.i("HTTP", "222222222");
+                     JSONObject jsonObject = new JSONObject(strUrlJSON);
+                     // never makes it here *************************** resource failed to call close
+                    Log.i("HTTP", "555555555");
 
                     // json method B
-                    JSONObject webImages = jsonObject.getJSONObject("WebImages");
-
-
-                    String imageName = webImages.getString("Imagename");
-                    String imageUrl = webImages.getString("imageurl");
+                //    JSONObject webImages = jsonObject.getJSONObject("WebImages");
+                    Log.i("HTTP", "4444444444444444");
+                    // dont really need meta data so not using these
+                    // String imageName = webImages.getString("Imagename");
+                    // String imageUrl = webImages.getString("imageurl");
                     //  inputStream = con.getInputStream();
                     // BufferedReader bf = new BufferedReader(new InputStreamReader(con.getInputStream()));
                     //   String value = bf.readLine();
@@ -87,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
                         try {
                             publishProgress(i);
                             Thread.sleep(30);
+                            Log.i("HTTP", "33333333");
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -103,13 +122,35 @@ public class MainActivity extends AppCompatActivity {
               public void onProgressUpdate(Integer ... args)
               {
                   try {
-                      JSONObject jsonObject = new JSONObject(strUrl);
-                      JSONObject webImages = jsonObject.getJSONObject("WebImages");
-                      String imageName = webImages.getString("Imagename");
-                      String imageUrl = webImages.getString("imageurl");
+
+                      // method A
+
+                  //    final String JSON_STRING="{\"tags\":{\"createdAt\":\"2022-04-17T19:17:05.564Z\",\"updatedAt\":\"2022-10-11T07:52:32.651Z\",\"mimetype\":\"image/jpeg\",\"size\":280545,\"_id\":\"KyCpC9ckObUSgQ54\"}";
+//     original   public final static String JSON_STRING="{"tags":["cat"],"createdAt":"2022-04-17T19:17:05.564Z","updatedAt":"2022-10-11T07:52:32.651Z","mimetype":"image/jpeg","size":280545,"_id":"KyCpC9ckObUSgQ54"}";
+
+                     // JSONObject jsonObject = new JSONObject(JSON_STRING);
+                      Log.i("HTTP", "aaaaaaaaaaa");
+                         JSONObject jsonObject = new JSONObject(strUrlJSON);
+                      Log.i("HTTP", "bbbbbbbbb");
+                       jsonObject.getJSONObject("WebImages");
+                      // never gets here, not sure why it fails getting json object
+                      Log.i("HTTP", "ccccccccccc");
+                   //   String imageUrl = jsonObject.getString("id");
+                      String imageUrl = strUrl;
+                      Log.i("HTTP", "eeeeeeeeeee");
+
+
+                      // method B
+
+//                      JSONObject jsonObject = new JSONObject(strUrl);
+                  //    JSONObject webImages = jsonObject.getJSONObject("WebImages");
+                  //    String imageName = webImages.getString("Imagename");
+                 //     String imageUrl = webImages.getString("imageurl");
+
                       // display the image version 1
                       ImageView image = findViewById(R.id.imageCatViewer);
                       Bitmap bMap = BitmapFactory.decodeFile(imageUrl);
+                     //  Bitmap bMap = BitmapFactory.decodeFile(imageUrl);
                       //    Bitmap bMap = BitmapFactory.decodeResource(); // get image from html as a parameter
                       image.setImageBitmap(bMap);
                   }
