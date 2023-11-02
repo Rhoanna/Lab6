@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="text_view_item_name" type="id" />
+    <item name="text_view_item_height" type="id" />
+    <item name="text_view_item_mass" type="id" />
+</resources>
